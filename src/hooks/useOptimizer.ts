@@ -48,7 +48,7 @@ export function useOptimizer() {
 
       // Production mode: call Edge Function
       const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/optimize-portfolio`,
+        `https://qotycjlrqtfmcreyihmw.supabase.co/functions/v1/optimize-portfolio`,
         {
           method: 'POST',
           headers: {
