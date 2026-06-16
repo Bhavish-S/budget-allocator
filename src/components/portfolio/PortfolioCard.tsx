@@ -46,8 +46,8 @@ export default function PortfolioCard({
       {/* Header */}
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 bg-navy rounded-lg flex items-center justify-center flex-shrink-0">
-            <Briefcase size={18} className="text-gold" />
+          <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center flex-shrink-0">
+            <Briefcase size={18} className="text-primary" />
           </div>
           <div className="min-w-0">
             <h3 className="text-text-dark font-semibold truncate">{portfolio.name}</h3>
@@ -138,7 +138,7 @@ export default function PortfolioCard({
         <button
           id={`optimize-portfolio-${portfolio.id}`}
           onClick={handleOptimize}
-          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-gold text-navy text-sm font-semibold rounded-lg hover:bg-yellow-400 transition-colors"
+          className="flex-1 flex items-center justify-center gap-1.5 px-3 py-2 bg-primary text-white text-sm font-semibold rounded-lg hover:bg-primary-dark transition-colors"
         >
           <Zap size={14} />
           Optimize

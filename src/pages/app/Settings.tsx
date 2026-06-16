@@ -84,14 +84,14 @@ export default function Settings() {
         {/* Profile */}
         <section id="profile" className="card-light">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-8 bg-navy rounded-lg flex items-center justify-center">
-              <User size={16} className="text-gold" />
+            <div className="w-8 h-8 bg-primary-light rounded-lg flex items-center justify-center">
+              <User size={16} className="text-primary" />
             </div>
             <h2 className="font-semibold text-text-dark">Profile</h2>
           </div>
 
           <div className="flex items-center gap-4 mb-5 pb-5 border-b border-gray-200">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gold to-yellow-600 flex items-center justify-center text-navy font-bold text-xl">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-dark flex items-center justify-center text-white font-bold text-xl">
               {user?.user_metadata?.full_name?.[0] || user?.email?.[0] || 'U'}
             </div>
             <div>
@@ -117,8 +117,8 @@ export default function Settings() {
         {/* Security */}
         <section id="security" className="card-light">
           <div className="flex items-center gap-3 mb-5">
-            <div className="w-8 h-8 bg-navy rounded-lg flex items-center justify-center">
-              <Shield size={16} className="text-gold" />
+            <div className="w-8 h-8 bg-primary-light rounded-lg flex items-center justify-center">
+              <Shield size={16} className="text-primary" />
             </div>
             <h2 className="font-semibold text-text-dark">Security</h2>
           </div>

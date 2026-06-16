@@ -89,19 +89,19 @@ export default function SharedPortfolio() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-navy flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-gold/30 border-t-gold rounded-full animate-spin" />
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
       </div>
     )
   }
 
   if (error) {
     return (
-      <div className="min-h-screen bg-navy flex items-center justify-center px-4">
+      <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="text-center">
-          <Lock size={40} className="text-gold mx-auto mb-4" />
-          <h1 className="text-white text-2xl font-bold mb-2">Link Unavailable</h1>
-          <p className="text-gold-light mb-6">{error}</p>
+          <Lock size={40} className="text-primary mx-auto mb-4" />
+          <h1 className="text-text-dark text-2xl font-bold mb-2">Link Unavailable</h1>
+          <p className="text-text-muted mb-6">{error}</p>
           <Link to="/" className="btn-primary">Go to Budget Allocator</Link>
         </div>
       </div>
@@ -118,10 +118,10 @@ export default function SharedPortfolio() {
   return (
     <div className="min-h-screen bg-gray-soft">
       {/* CTA Banner */}
-      <div className="bg-navy text-center py-3 px-4">
-        <p className="text-gold-light text-sm">
+      <div className="bg-primary-dark text-center py-3 px-4">
+        <p className="text-primary-light text-sm">
           Viewing a shared portfolio —{' '}
-          <Link to="/signup" className="text-gold font-semibold hover:underline">
+          <Link to="/signup" className="text-white font-semibold hover:underline">
             Sign up free to create your own
           </Link>
         </p>
@@ -130,10 +130,10 @@ export default function SharedPortfolio() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Logo */}
         <Link to="/" className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 bg-navy rounded-lg flex items-center justify-center">
-            <TrendingUp size={16} className="text-gold" />
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <TrendingUp size={16} className="text-white" />
           </div>
-          <span className="text-navy font-bold">Budget Allocator</span>
+          <span className="text-text-dark font-bold text-xl tracking-tight">Budget Allocator</span>
         </Link>
 
         {/* Portfolio header */}

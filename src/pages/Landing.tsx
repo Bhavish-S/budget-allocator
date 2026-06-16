@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import {
   TrendingUp, Zap, BarChart2, Layers, CheckCircle, ArrowRight, Github,
-  Twitter, Shield, PieChart, Lock, Home, Gem, FileSpreadsheet, Share2, Star,
+  Twitter, FileSpreadsheet, Share2,
 } from 'lucide-react'
 import { knapsack01 } from '@/lib/knapsack'
 import { formatCurrency, interpolateColor } from '@/lib/utils'
@@ -54,8 +54,8 @@ function MiniHeatmap({ dp }: { dp: number[][] }) {
   const maxVal = Math.max(...dp.flat())
 
   return (
-    <div className="rounded-xl overflow-hidden border border-gold/20 bg-navy p-3">
-      <p className="text-gold text-xs font-semibold mb-2">Live DP Table</p>
+    <div className="rounded-xl overflow-hidden border border-gray-200 bg-white p-3 shadow-sm">
+      <p className="text-text-dark text-xs font-semibold mb-2">Live DP Table</p>
       <div className="space-y-0.5">
         {dp.slice(1, rows).map((row, ri) => (
           <div key={ri} className="flex gap-0.5">
@@ -66,7 +66,7 @@ function MiniHeatmap({ dp }: { dp: number[][] }) {
                 style={{
                   width: 12,
                   height: 12,
-                  backgroundColor: interpolateColor(val, maxVal || 1),
+                  backgroundColor: val > 0 ? `rgba(79, 70, 229, ${val / maxVal})` : '#f1f5f9',
                 }}
               />
             ))}
@@ -91,20 +91,22 @@ function DemoWidget() {
   }
 
   return (
-    <div className="bg-navy/80 border border-gold/20 rounded-2xl p-6 backdrop-blur-sm">
-      <div className="flex items-center justify-between mb-4">
+    <div className="bg-white/80 border border-gray-200 rounded-2xl p-6 shadow-xl backdrop-blur-md relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+      
+      <div className="flex items-center justify-between mb-4 relative z-10">
         <div>
-          <h3 className="text-white font-semibold">Live Demo</h3>
-          <p className="text-gold-light/70 text-xs mt-0.5">Budget: ₹10,00,000</p>
+          <h3 className="text-text-dark font-bold text-lg">Live Demo</h3>
+          <p className="text-gray-mid text-xs mt-0.5 font-medium">Budget: ₹10,00,000</p>
         </div>
         <button
           id="demo-optimize-btn"
           onClick={handleRun}
           disabled={isRunning}
-          className="flex items-center gap-2 px-4 py-2 bg-gold text-navy font-semibold text-sm rounded-lg hover:bg-yellow-400 transition-colors disabled:opacity-60"
+          className="flex items-center gap-2 px-4 py-2 bg-primary text-white font-semibold text-sm rounded-lg hover:bg-primary-dark transition-colors shadow-sm disabled:opacity-60"
         >
           {isRunning ? (
-            <div className="w-4 h-4 border-2 border-navy/30 border-t-navy rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
           ) : (
             <Zap size={14} fill="currentColor" />
           )}
@@ -113,33 +115,33 @@ function DemoWidget() {
       </div>
 
       {/* Investments list */}
-      <div className="space-y-2 mb-4">
+      <div className="space-y-2 mb-5 relative z-10">
         {DEMO_INVESTMENTS.map((inv) => {
           const selected = result?.selectedIds.includes(inv.id)
           return (
             <div
               key={inv.id}
-              className={`flex items-center justify-between p-2.5 rounded-lg border transition-all ${
+              className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
                 result
                   ? selected
-                    ? 'bg-success/10 border-success/30'
-                    : 'bg-white/5 border-white/10 opacity-50'
-                  : 'bg-white/5 border-white/10'
+                    ? 'bg-success/5 border-success/30 shadow-sm'
+                    : 'bg-gray-50 border-gray-100 opacity-60'
+                  : 'bg-white border-gray-200 hover:border-gray-300'
               }`}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 {result && (
-                  <div className={`w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 ${
-                    selected ? 'bg-success' : 'bg-white/20'
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 ${
+                    selected ? 'bg-success shadow-sm' : 'bg-gray-200'
                   }`}>
-                    {selected && <CheckCircle size={10} className="text-white" />}
+                    {selected && <CheckCircle size={12} className="text-white" />}
                   </div>
                 )}
-                <p className="text-white text-xs font-medium">{inv.name}</p>
+                <p className={`text-sm font-medium ${selected ? 'text-success-dark' : 'text-text-dark'}`}>{inv.name}</p>
               </div>
               <div className="text-right">
-                <p className="text-gold text-xs font-mono">{formatCurrency(inv.expected_return, 'INR', true)}</p>
-                <p className="text-white/50 text-xs font-mono">{formatCurrency(inv.cost, 'INR', true)}</p>
+                <p className="text-primary font-semibold text-sm font-mono">{formatCurrency(inv.expected_return, 'INR', true)}</p>
+                <p className="text-gray-mid text-xs font-mono font-medium">Cost: {formatCurrency(inv.cost, 'INR', true)}</p>
               </div>
             </div>
           )
@@ -148,16 +150,18 @@ function DemoWidget() {
 
       {/* Results */}
       {result && (
-        <div className="border-t border-gold/20 pt-4 space-y-3">
-          <div className="flex items-center justify-between">
-            <p className="text-gold-light text-sm">Optimal Return</p>
-            <p className="text-white font-bold font-mono">{formatCurrency(result.totalReturn, 'INR', true)}</p>
-          </div>
-          <div className="flex items-center justify-between">
-            <p className="text-gold-light text-sm">ROI</p>
-            <p className="text-success font-bold text-lg">
-              {result.roiPercent >= 0 ? '+' : ''}{result.roiPercent.toFixed(2)}%
-            </p>
+        <div className="border-t border-gray-200 pt-5 space-y-4 relative z-10 animate-fade-in-up">
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+              <p className="text-gray-mid text-xs font-medium mb-1">Optimal Return</p>
+              <p className="text-text-dark font-bold font-mono text-lg">{formatCurrency(result.totalReturn, 'INR', true)}</p>
+            </div>
+            <div className="bg-success/5 rounded-xl p-3 border border-success/20">
+              <p className="text-success-dark text-xs font-medium mb-1">Total ROI</p>
+              <p className="text-success font-bold text-lg">
+                {result.roiPercent >= 0 ? '+' : ''}{result.roiPercent.toFixed(2)}%
+              </p>
+            </div>
           </div>
           <MiniHeatmap dp={result.dpTable} />
         </div>
@@ -171,37 +175,37 @@ const FEATURES = [
     icon: CheckCircle,
     title: 'Exact Optimization',
     desc: '0/1 Knapsack DP — not approximations. Mathematically proven optimal allocation.',
-    color: '#16A34A',
+    color: '#10B981', // success
   },
   {
     icon: BarChart2,
     title: 'Visual DP Table',
     desc: 'Watch the algorithm think with an animated heatmap. Each cell reveals the optimal sub-problem solution.',
-    color: '#C9A84C',
+    color: '#4F46E5', // primary
   },
   {
     icon: Layers,
     title: 'Multi-Portfolio',
     desc: 'Manage unlimited portfolios across INR, USD, EUR, GBP. Switch between them instantly.',
-    color: '#2D5EA8',
+    color: '#0EA5E9', // secondary
   },
   {
     icon: TrendingUp,
     title: 'Greedy Comparison',
     desc: 'Side-by-side comparison with the greedy algorithm. See exactly how much more DP earns.',
-    color: '#D97706',
+    color: '#F59E0B', // warning
   },
   {
     icon: FileSpreadsheet,
     title: 'CSV Import & Export',
     desc: 'Bulk-import investments from spreadsheets. Export results as CSV for further analysis.',
-    color: '#8A9BB5',
+    color: '#64748B', // muted
   },
   {
     icon: Share2,
     title: 'Shareable Reports',
     desc: 'Share your optimized portfolio with a single link. No login required to view.',
-    color: '#1B3A6B',
+    color: '#4338CA', // primary-dark
   },
 ]
 
@@ -257,26 +261,26 @@ const PRICING_PLANS = [
 
 export default function Landing() {
   return (
-    <div className="min-h-screen bg-navy font-sans">
+    <div className="min-h-screen bg-background font-sans selection:bg-primary/20 selection:text-primary-dark">
       {/* Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-navy/90 backdrop-blur border-b border-gold/10">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-gold rounded-lg flex items-center justify-center">
-              <TrendingUp size={16} className="text-navy" strokeWidth={2.5} />
+            <div className="w-8 h-8 bg-primary-light rounded-lg flex items-center justify-center">
+              <TrendingUp size={16} className="text-primary" strokeWidth={2.5} />
             </div>
-            <span className="text-gold font-bold text-lg">Budget Allocator</span>
+            <span className="text-text-dark font-bold text-lg tracking-tight">Budget Allocator</span>
           </Link>
           <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-gray-mid hover:text-white text-sm transition-colors">Features</a>
-            <a href="#demo" className="text-gray-mid hover:text-white text-sm transition-colors">Demo</a>
-            <a href="#pricing" className="text-gray-mid hover:text-white text-sm transition-colors">Pricing</a>
+            <a href="#features" className="text-gray-mid hover:text-text-dark text-sm font-medium transition-colors">Features</a>
+            <a href="#demo" className="text-gray-mid hover:text-text-dark text-sm font-medium transition-colors">Demo</a>
+            <a href="#pricing" className="text-gray-mid hover:text-text-dark text-sm font-medium transition-colors">Pricing</a>
           </div>
-          <div className="flex items-center gap-3">
-            <Link to="/login" className="text-gray-mid hover:text-white text-sm transition-colors hidden md:block">
+          <div className="flex items-center gap-4">
+            <Link to="/login" className="text-gray-mid hover:text-text-dark text-sm font-medium transition-colors hidden md:block">
               Sign In
             </Link>
-            <Link to="/signup" id="nav-signup-btn" className="btn-primary text-sm">
+            <Link to="/signup" id="nav-signup-btn" className="bg-text-dark hover:bg-black text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors shadow-sm">
               Get Started Free
             </Link>
           </div>
@@ -284,33 +288,42 @@ export default function Landing() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-20 px-4 bg-diagonal relative overflow-hidden">
-        <div className="absolute inset-0 bg-grid opacity-30" />
-        <div className="max-w-7xl mx-auto relative">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="pt-32 pb-24 px-4 relative overflow-hidden">
+        {/* Modern abstract gradient background */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-[-10%] left-[-5%] w-[40rem] h-[40rem] rounded-full bg-primary/5 blur-3xl" />
+          <div className="absolute top-[20%] right-[-10%] w-[35rem] h-[35rem] rounded-full bg-secondary/5 blur-3xl" />
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.02)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_70%,transparent_100%)]" />
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
             <div>
               {/* Badge */}
-              <div className="inline-flex items-center gap-2 bg-gold/10 border border-gold/20 rounded-full px-4 py-1.5 mb-6">
-                <div className="w-2 h-2 bg-gold rounded-full animate-pulse" />
-                <span className="text-gold text-xs font-semibold">0/1 Knapsack Dynamic Programming</span>
+              <div className="inline-flex items-center gap-2 bg-white border border-gray-200 rounded-full px-4 py-1.5 mb-8 shadow-sm">
+                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                <span className="text-text-dark text-xs font-semibold tracking-wide">0/1 Knapsack Dynamic Programming</span>
               </div>
 
-              <h1 className="text-white leading-tight mb-6" style={{ fontSize: 'clamp(36px, 5vw, 64px)', fontWeight: 800 }}>
+              <h1 className="text-text-dark leading-tight mb-6 tracking-tight" style={{ fontSize: 'clamp(40px, 5vw, 68px)', fontWeight: 800 }}>
                 Optimize Your{' '}
-                <span className="gradient-text">Investments</span>
+                <span className="text-primary relative inline-block">
+                  Investments
+                  <svg className="absolute w-full h-3 -bottom-1 left-0 text-primary-light/60 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" strokeLinecap="round"/></svg>
+                </span>
               </h1>
 
-              <p className="text-gold-light/80 text-lg leading-relaxed mb-8">
-                The 0/1 Knapsack algorithm finds your exact optimal portfolio allocation.
+              <p className="text-gray-mid text-xl leading-relaxed mb-10 max-w-lg">
+                The Knapsack algorithm finds your exact optimal portfolio allocation.
                 No guessing. No heuristics.{' '}
-                <strong className="text-gold-light">Mathematical certainty.</strong>
+                <strong className="text-text-dark font-semibold">Mathematical certainty.</strong>
               </p>
 
-              <div className="flex flex-wrap gap-4 mb-10">
+              <div className="flex flex-wrap gap-4 mb-12">
                 <Link
                   to="/signup"
                   id="hero-cta-primary"
-                  className="btn-primary text-base px-8 py-3"
+                  className="btn-primary text-base px-8 py-3.5 shadow-md hover:shadow-lg transition-all"
                 >
                   Start Optimizing — Free
                   <ArrowRight size={18} />
@@ -318,95 +331,54 @@ export default function Landing() {
                 <a
                   href="#demo"
                   id="hero-cta-demo"
-                  className="btn-secondary text-base px-8 py-3"
+                  className="bg-white border border-gray-200 text-text-dark hover:bg-gray-50 text-base font-semibold px-8 py-3.5 rounded-lg shadow-sm transition-colors flex items-center justify-center"
                 >
                   See Live Demo
                 </a>
               </div>
 
               {/* Counter cards */}
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-3 gap-4 border-t border-gray-200 pt-8">
                 {[
                   { value: 240, prefix: '₹', suffix: 'Cr+', label: 'Optimized' },
                   { value: 12400, suffix: '+', label: 'Portfolios' },
                   { value: 99, suffix: '.9%', label: 'Accuracy' },
                 ].map((stat) => (
-                  <div key={stat.label} className="card-dark text-center">
-                    <p className="text-gold text-xl font-bold">
+                  <div key={stat.label}>
+                    <p className="text-text-dark text-3xl font-bold tracking-tight">
                       <AnimatedCounter target={stat.value} prefix={stat.prefix || ''} suffix={stat.suffix || ''} />
                     </p>
-                    <p className="text-gold-light/60 text-xs mt-1">{stat.label}</p>
+                    <p className="text-gray-mid text-sm font-medium mt-1">{stat.label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
             {/* Hero visual */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-gold/20 to-transparent blur-3xl opacity-30 rounded-full" />
+            <div className="relative lg:pl-10">
               <DemoWidget />
             </div>
           </div>
         </div>
       </section>
 
-      {/* How it works */}
-      <section className="py-20 px-4 bg-slate/20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-white text-3xl font-bold mb-3">How It Works</h2>
-            <p className="text-gold-light/70">Three simple steps to mathematical portfolio perfection</p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                step: '01',
-                title: 'Set Your Budget & Add Investments',
-                desc: 'Create a portfolio with your total budget. Add investment options with their cost and expected return. Import from CSV if you have many.',
-              },
-              {
-                step: '02',
-                title: 'Click Optimize',
-                desc: 'Our 0/1 Knapsack DP algorithm runs in milliseconds — even for 500+ investments. Watch the animated DP table fill in real time.',
-              },
-              {
-                step: '03',
-                title: 'Get Your Exact Optimal Allocation',
-                desc: 'See exactly which investments to pick, your maximum possible return, ROI%, and how it compares to the greedy algorithm.',
-              },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="card-dark relative">
-                <div className="text-gold/20 text-8xl font-bold absolute top-4 right-4 leading-none font-mono">{step}</div>
-                <div className="relative">
-                  <div className="w-10 h-10 bg-gold rounded-xl flex items-center justify-center mb-4 text-navy font-bold">
-                    {parseInt(step)}
-                  </div>
-                  <h3 className="text-white font-semibold text-lg mb-2">{title}</h3>
-                  <p className="text-gold-light/70 text-sm leading-relaxed">{desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Features */}
-      <section id="features" className="py-20 px-4 bg-gray-soft">
+      <section id="features" className="py-24 px-4 bg-white relative">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-text-dark text-3xl font-bold mb-3">Everything You Need</h2>
-            <p className="text-gray-mid">Built for serious investors who want mathematical precision</p>
+          <div className="text-center mb-16 max-w-2xl mx-auto">
+            <h2 className="text-text-dark text-4xl font-bold mb-4 tracking-tight">Everything You Need</h2>
+            <p className="text-gray-mid text-lg">Built for serious investors who want absolute mathematical precision in their asset allocation strategy.</p>
           </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {FEATURES.map(({ icon: Icon, title, desc, color }) => (
-              <div key={title} className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group">
+              <div key={title} className="bg-background border border-gray-100 rounded-2xl p-6 shadow-sm hover:shadow-md transition-all group">
                 <div
-                  className="w-10 h-10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform"
-                  style={{ backgroundColor: `${color}20` }}
+                  className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-sm"
+                  style={{ backgroundColor: `${color}15` }}
                 >
-                  <Icon size={20} style={{ color }} />
+                  <Icon size={24} style={{ color }} />
                 </div>
-                <h3 className="text-text-dark font-semibold mb-2">{title}</h3>
+                <h3 className="text-text-dark font-bold text-lg mb-2">{title}</h3>
                 <p className="text-gray-mid text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
@@ -415,77 +387,81 @@ export default function Landing() {
       </section>
 
       {/* Demo section */}
-      <section id="demo" className="py-20 px-4 bg-navy bg-diagonal">
-        <div className="max-w-5xl mx-auto">
+      <section id="demo" className="py-24 px-4 bg-primary relative overflow-hidden">
+        {/* Subtle background pattern for primary section */}
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:20px_20px]" />
+        
+        <div className="max-w-5xl mx-auto relative z-10">
           <div className="text-center mb-12">
-            <h2 className="text-white text-3xl font-bold mb-3">Try It Right Now</h2>
-            <p className="text-gold-light/70">No login required. Real 0/1 Knapsack DP running in your browser.</p>
+            <h2 className="text-white text-4xl font-bold mb-4 tracking-tight">Try It Right Now</h2>
+            <p className="text-primary-light/80 text-lg">No login required. Real 0/1 Knapsack DP running instantly in your browser.</p>
           </div>
-          <div className="max-w-lg mx-auto">
+          <div className="max-w-xl mx-auto">
             <DemoWidget />
           </div>
-          <div className="text-center mt-8">
-            <Link to="/signup" id="demo-cta-btn" className="btn-primary text-base px-8 py-3">
+          <div className="text-center mt-12">
+            <Link to="/signup" id="demo-cta-btn" className="bg-white text-primary hover:bg-gray-50 px-8 py-3.5 rounded-lg text-base font-bold shadow-lg transition-colors inline-flex items-center gap-2">
               Want your own portfolios? Sign up free
+              <ArrowRight size={18} />
             </Link>
           </div>
         </div>
       </section>
 
       {/* Pricing */}
-      <section id="pricing" className="py-20 px-4 bg-gray-soft">
+      <section id="pricing" className="py-24 px-4 bg-background">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-text-dark text-3xl font-bold mb-3">Simple, Transparent Pricing</h2>
-            <p className="text-gray-mid">Start free. Upgrade when you need more.</p>
+          <div className="text-center mb-16">
+            <h2 className="text-text-dark text-4xl font-bold mb-4 tracking-tight">Simple, Transparent Pricing</h2>
+            <p className="text-gray-mid text-lg">Start free. Upgrade when you need more power.</p>
           </div>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             {PRICING_PLANS.map((plan) => (
               <div
                 key={plan.name}
-                className={`rounded-2xl p-6 relative ${
+                className={`rounded-3xl p-8 relative transition-transform hover:-translate-y-1 ${
                   plan.highlighted
-                    ? 'bg-navy text-white border-2 border-gold shadow-2xl scale-105'
+                    ? 'bg-text-dark text-white shadow-xl scale-105 z-10 border border-gray-800'
                     : 'bg-white border border-gray-200 shadow-sm'
                 }`}
               >
                 {plan.highlighted && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-gold text-navy text-xs font-bold px-4 py-1 rounded-full">
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-sm tracking-wide">
                     MOST POPULAR
                   </div>
                 )}
-                <h3 className={`font-bold text-lg mb-1 ${
-                  plan.highlighted ? 'text-gold' : 'text-text-dark'
+                <h3 className={`font-bold text-xl mb-2 ${
+                  plan.highlighted ? 'text-white' : 'text-text-dark'
                 }`}>{plan.name}</h3>
-                <p className={`text-sm mb-4 ${plan.highlighted ? 'text-gold-light/70' : 'text-gray-mid'}`}>
+                <p className={`text-sm mb-6 ${plan.highlighted ? 'text-gray-400' : 'text-gray-mid'}`}>
                   {plan.desc}
                 </p>
-                <div className="mb-6">
-                  <span className={`text-4xl font-bold font-mono ${
+                <div className="mb-8">
+                  <span className={`text-5xl font-bold tracking-tight ${
                     plan.highlighted ? 'text-white' : 'text-text-dark'
                   }`}>{plan.price}</span>
-                  <span className={`text-sm ml-1 ${
-                    plan.highlighted ? 'text-gold-light/70' : 'text-gray-mid'
+                  <span className={`text-sm ml-1 font-medium ${
+                    plan.highlighted ? 'text-gray-400' : 'text-gray-mid'
                   }`}>{plan.period}</span>
                 </div>
-                <ul className="space-y-2.5 mb-6">
+                <ul className="space-y-4 mb-8">
                   {plan.features.map((feat) => (
-                    <li key={feat} className="flex items-center gap-2 text-sm">
+                    <li key={feat} className="flex items-center gap-3 text-sm">
                       <CheckCircle
-                        size={15}
-                        className={plan.highlighted ? 'text-gold' : 'text-success'}
+                        size={18}
+                        className={plan.highlighted ? 'text-primary-light' : 'text-success'}
                       />
-                      <span className={plan.highlighted ? 'text-gold-light' : 'text-text-dark'}>{feat}</span>
+                      <span className={`font-medium ${plan.highlighted ? 'text-gray-200' : 'text-text-dark'}`}>{feat}</span>
                     </li>
                   ))}
                 </ul>
                 <Link
                   to="/signup"
                   id={`pricing-${plan.name.toLowerCase()}-btn`}
-                  className={`block text-center py-2.5 rounded-lg font-semibold text-sm transition-colors ${
+                  className={`block text-center py-3 rounded-xl font-bold text-sm transition-all shadow-sm ${
                     plan.highlighted
-                      ? 'bg-gold text-navy hover:bg-yellow-400'
-                      : 'border border-gray-200 text-text-dark hover:bg-gray-50'
+                      ? 'bg-primary text-white hover:bg-primary-dark'
+                      : 'bg-background border border-gray-200 text-text-dark hover:bg-gray-100 hover:border-gray-300'
                   }`}
                 >
                   {plan.cta}
@@ -497,26 +473,26 @@ export default function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-navy border-t border-gold/10 py-12 px-4">
+      <footer className="bg-white border-t border-gray-200 py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div className="md:col-span-2">
-              <Link to="/" className="flex items-center gap-2 mb-3">
-                <div className="w-8 h-8 bg-gold rounded-lg flex items-center justify-center">
-                  <TrendingUp size={16} className="text-navy" />
+              <Link to="/" className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 bg-primary-light rounded-lg flex items-center justify-center">
+                  <TrendingUp size={16} className="text-primary" strokeWidth={2.5} />
                 </div>
-                <span className="text-gold font-bold">Budget Allocator</span>
+                <span className="text-text-dark font-bold text-lg tracking-tight">Budget Allocator</span>
               </Link>
-              <p className="text-gold-light/60 text-sm leading-relaxed max-w-sm">
-                Mathematical portfolio optimization using the 0/1 Knapsack Dynamic Programming algorithm. Built for serious investors.
+              <p className="text-gray-mid text-sm leading-relaxed max-w-sm font-medium">
+                Mathematical portfolio optimization using the 0/1 Knapsack algorithm. Built for serious investors looking to maximize their ROI.
               </p>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm">Product</h4>
-              <ul className="space-y-2">
+              <h4 className="text-text-dark font-bold mb-4 text-sm tracking-wide">PRODUCT</h4>
+              <ul className="space-y-3">
                 {['Features', 'Pricing', 'Demo'].map((link) => (
                   <li key={link}>
-                    <a href={`#${link.toLowerCase()}`} className="text-gold-light/60 hover:text-gold-light text-sm transition-colors">
+                    <a href={`#${link.toLowerCase()}`} className="text-gray-mid hover:text-primary text-sm font-medium transition-colors">
                       {link}
                     </a>
                   </li>
@@ -524,15 +500,15 @@ export default function Landing() {
               </ul>
             </div>
             <div>
-              <h4 className="text-white font-semibold mb-3 text-sm">Account</h4>
-              <ul className="space-y-2">
+              <h4 className="text-text-dark font-bold mb-4 text-sm tracking-wide">ACCOUNT</h4>
+              <ul className="space-y-3">
                 {[
                   { label: 'Sign Up', to: '/signup' },
                   { label: 'Sign In', to: '/login' },
                   { label: 'Dashboard', to: '/app/dashboard' },
                 ].map(({ label, to }) => (
                   <li key={label}>
-                    <Link to={to} className="text-gold-light/60 hover:text-gold-light text-sm transition-colors">
+                    <Link to={to} className="text-gray-mid hover:text-primary text-sm font-medium transition-colors">
                       {label}
                     </Link>
                   </li>
@@ -540,16 +516,16 @@ export default function Landing() {
               </ul>
             </div>
           </div>
-          <div className="border-t border-gold/10 pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-            <p className="text-gold-light/40 text-sm">
+          <div className="border-t border-gray-100 pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
+            <p className="text-gray-mid text-sm font-medium">
               © {new Date().getFullYear()} Budget Allocator. Built with ❤️ and O(n×W) complexity.
             </p>
-            <div className="flex items-center gap-4">
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gold-light/40 hover:text-gold-light transition-colors" aria-label="GitHub">
-                <Github size={18} />
+            <div className="flex items-center gap-5">
+              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-text-dark transition-colors" aria-label="GitHub">
+                <Github size={20} />
               </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gold-light/40 hover:text-gold-light transition-colors" aria-label="Twitter">
-                <Twitter size={18} />
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-secondary transition-colors" aria-label="Twitter">
+                <Twitter size={20} />
               </a>
             </div>
           </div>
