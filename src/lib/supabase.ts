@@ -12,8 +12,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
 }
 
 export const supabase: any = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseAnonKey || 'placeholder-key',
+  supabaseUrl || 'https://qotycjlrqtfmcreyihmw.supabase.co',
+  supabaseAnonKey || 'sb_publishable_-B-JV7lokRjjlWjGYjlj_Q_G4yDuU-M',
   {
     auth: {
       persistSession: true,
