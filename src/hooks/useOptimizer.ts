@@ -17,55 +17,59 @@ export function useOptimizer() {
 
   const optimize = useMutation({
     mutationFn: async ({ portfolioId, budget, investments, unitSize }: OptimizeParams) => {
-      // Demo mode: run client-side
-      if (isDemoMode || !session) {
-        const start = Date.now()
-        const dpResult = knapsack01(investments, budget, unitSize)
-        const greedyResult = greedyKnapsack(investments, budget)
-        const executionTime = Date.now() - start
-        const dpSnapshot = sampleDPTable(dpResult.dpTable)
-        return {
-          success: true,
-          run_id: null,
-          dp_result: {
-            selected_ids: dpResult.selectedIds,
+      // Run client-side since edge function is giving CORS errors (not deployed)
+      const start = Date.now()
+      const dpResult = knapsack01(investments, budget, unitSize)
+      const greedyResult = greedyKnapsack(investments, budget)
+      const executionTime = Date.now() - start
+      const dpSnapshot = sampleDPTable(dpResult.dpTable)
+      
+      const resultData = {
+        success: true,
+        run_id: null as string | null,
+        dp_result: {
+          selected_ids: dpResult.selectedIds,
+          total_cost: dpResult.totalCost,
+          total_return: dpResult.totalReturn,
+          roi_percent: dpResult.roiPercent,
+          budget_utilized_percent: dpResult.budgetUtilizedPercent,
+        },
+        greedy_result: {
+          selectedIds: greedyResult.selectedIds,
+          totalReturn: greedyResult.totalReturn,
+          totalCost: greedyResult.totalCost,
+          roiPercent: greedyResult.roiPercent,
+        },
+        dp_snapshot: dpSnapshot,
+        execution_time_ms: executionTime,
+      }
+
+      if (session) {
+        // Save to DB
+        const { data, error } = await supabase
+          .from('optimization_runs')
+          .insert({
+            portfolio_id: portfolioId,
+            user_id: session.user.id,
+            total_budget: budget,
             total_cost: dpResult.totalCost,
             total_return: dpResult.totalReturn,
             roi_percent: dpResult.roiPercent,
-            budget_utilized_percent: dpResult.budgetUtilizedPercent,
-          },
-          greedy_result: {
-            selectedIds: greedyResult.selectedIds,
-            totalReturn: greedyResult.totalReturn,
-            totalCost: greedyResult.totalCost,
-            roiPercent: greedyResult.roiPercent,
-          },
-          dp_snapshot: dpSnapshot,
-          execution_time_ms: executionTime,
-          demo_mode: true,
+            selected_investment_ids: dpResult.selectedIds,
+            dp_table_snapshot: dpSnapshot,
+            greedy_result_json: greedyResult,
+            algorithm_variant: '0/1-dp-local',
+            execution_time_ms: executionTime,
+          })
+          .select()
+          .single()
+          
+        if (!error && data) {
+           resultData.run_id = data.id
         }
       }
 
-      // Production mode: call Edge Function
-      const response = await fetch(
-        `https://qotycjlrqtfmcreyihmw.supabase.co/functions/v1/optimize-portfolio`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${session.access_token}`,
-            'apikey': import.meta.env.VITE_SUPABASE_ANON_KEY,
-          },
-          body: JSON.stringify({
-            portfolio_id: portfolioId,
-            budget,
-            investments,
-            unit_size: unitSize,
-          }),
-        }
-      )
-      if (!response.ok) throw new Error(await response.text())
-      return response.json()
+      return resultData
     },
     onSuccess: (data) => {
       const roi = data.dp_result?.roi_percent?.toFixed(2) ?? '0.00'
@@ -102,6 +106,6 @@ export function useOptimizationRuns(portfolioId?: string) {
       if (error) throw error
       return data || []
     },
-    enabled: !!user && !isDemoMode,
+    enabled: !!user,
   })
 }
