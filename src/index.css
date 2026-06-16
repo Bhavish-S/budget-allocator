@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #F5F7FA;
+    color: #1A2332;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(201, 168, 76, 0.3);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(201, 168, 76, 0.5);
+  }
+
+  /* Focus ring */
+  :focus-visible {
+    outline: 2px solid #C9A84C;
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gold text-navy font-semibold rounded-[6px] hover:bg-yellow-400 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-gold text-gold font-semibold rounded-[6px] hover:bg-gold/10 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-gray-mid font-medium rounded-[6px] hover:bg-white/5 hover:text-white active:scale-95 transition-all duration-150;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-danger text-white font-semibold rounded-[6px] hover:bg-red-700 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* Cards */
+  .card-dark {
+    @apply bg-slate rounded-xl border p-5;
+    border-color: rgba(201, 168, 76, 0.2);
+  }
+
+  .card-light {
+    @apply bg-white rounded-xl border border-gray-200 p-5 shadow-sm;
+  }
+
+  /* Form inputs */
+  .input-field {
+    @apply w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-[6px] text-text-dark text-sm placeholder:text-gray-mid focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors;
+  }
+
+  .input-dark {
+    @apply w-full px-3.5 py-2.5 bg-navy/50 border border-gold/20 rounded-[6px] text-white text-sm placeholder:text-gray-mid focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors;
+  }
+
+  .label {
+    @apply block text-sm font-medium text-gray-700 mb-1.5;
+  }
+
+  .label-dark {
+    @apply block text-sm font-medium text-gold-light mb-1.5;
+  }
+
+  .error-text {
+    @apply text-danger text-xs mt-1;
+  }
+
+  /* Page header */
+  .page-header {
+    @apply mb-8;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-text-dark;
+  }
+
+  .page-subtitle {
+    @apply text-gray-mid text-sm mt-1;
+  }
+
+  /* Badge */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium;
+  }
+
+  /* Table */
+  .table-container {
+    @apply overflow-x-auto rounded-xl border border-gray-200 bg-white;
+  }
+
+  .table-base {
+    @apply w-full text-sm;
+  }
+
+  .table-header {
+    @apply bg-gray-soft text-gray-mid text-xs font-medium uppercase tracking-wider;
+  }
+
+  .table-header th {
+    @apply px-4 py-3 text-left whitespace-nowrap;
+  }
+
+  .table-row {
+    @apply border-t border-gray-100 hover:bg-gray-soft/50 transition-colors;
+  }
+
+  .table-row td {
+    @apply px-4 py-3 text-text-dark;
+  }
+
+  /* Animations */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s ease-out forwards;
+  }
+
+  .animate-slide-in-right {
+    animation: slideInRight 0.3s ease-out forwards;
+  }
+
+  /* Drawer */
+  .drawer-overlay {
+    @apply fixed inset-0 bg-black/50 z-50;
+  }
+
+  .drawer-panel {
+    @apply fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 flex flex-col overflow-hidden;
+  }
+
+  .drawer-panel-dark {
+    @apply fixed right-0 top-0 bottom-0 w-full max-w-md bg-navy border-l border-gold/20 shadow-2xl z-50 flex flex-col overflow-hidden;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    background: linear-gradient(135deg, #C9A84C, #E8D5A3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* DP Heatmap cell */
+  .dp-cell {
+    @apply rounded-sm transition-all;
+    font-size: 8px;
+    line-height: 1;
+  }
+}
+
+@layer utilities {
+  .font-800 {
+    font-weight: 800;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Background patterns */
+  .bg-diagonal {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 40px,
+      rgba(201, 168, 76, 0.03) 40px,
+      rgba(201, 168, 76, 0.03) 80px
+    );
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(201, 168, 76, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(201, 168, 76, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  /* Glow effects */
+  .glow-gold {
+    box-shadow: 0 0 24px rgba(201, 168, 76, 0.25);
+  }
+
+  .text-glow-gold {
+    text-shadow: 0 0 20px rgba(201, 168, 76, 0.5);
+  }
+}
