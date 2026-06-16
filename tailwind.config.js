@@ -4,17 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        navy: '#0A1628',
-        slate: '#1B3A6B',
-        gold: '#C9A84C',
-        'gold-light': '#E8D5A3',
-        'blue-mid': '#2D5EA8',
-        'gray-soft': '#F5F7FA',
-        'gray-mid': '#8A9BB5',
-        'text-dark': '#1A2332',
-        success: '#16A34A',
-        warning: '#D97706',
-        danger: '#DC2626',
+        primary: '#4F46E5', // indigo-600
+        'primary-light': '#EEF2FF', // indigo-50
+        'primary-dark': '#4338CA', // indigo-700
+        secondary: '#0EA5E9', // sky-500
+        surface: '#FFFFFF',
+        background: '#F8FAFC', // slate-50
+        'gray-soft': '#F1F5F9', // slate-100
+        'gray-mid': '#94A3B8', // slate-400
+        'text-dark': '#1E293B', // slate-800
+        'text-muted': '#64748B', // slate-500
+        success: '#10B981', // emerald-500
+        warning: '#F59E0B', // amber-500
+        danger: '#EF4444', // red-500
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -26,7 +28,7 @@ export default {
         'slide-in-right': 'slideInRight 0.3s ease-out forwards',
         'slide-in-left': 'slideInLeft 0.3s ease-out forwards',
         'count-up': 'countUp 0.6s ease-out forwards',
-        'pulse-gold': 'pulseGold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'pulse-primary': 'pulsePrimary 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
       keyframes: {
         cellFill: {
@@ -49,14 +51,14 @@ export default {
           '0%': { opacity: '0' },
           '100%': { opacity: '1' },
         },
-        pulseGold: {
-          '0%, 100%': { boxShadow: '0 0 0 0 rgba(201, 168, 76, 0.4)' },
-          '50%': { boxShadow: '0 0 0 8px rgba(201, 168, 76, 0)' },
+        pulsePrimary: {
+          '0%, 100%': { boxShadow: '0 0 0 0 rgba(79, 70, 229, 0.4)' },
+          '50%': { boxShadow: '0 0 0 8px rgba(79, 70, 229, 0)' },
         },
       },
       backgroundImage: {
-        'diagonal-pattern': "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(201, 168, 76, 0.03) 40px, rgba(201, 168, 76, 0.03) 80px)",
-        'grid-pattern': "linear-gradient(rgba(201, 168, 76, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(201, 168, 76, 0.05) 1px, transparent 1px)",
+        'diagonal-pattern': "repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(79, 70, 229, 0.03) 40px, rgba(79, 70, 229, 0.03) 80px)",
+        'grid-pattern': "linear-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px)",
       },
       backdropBlur: {
         xs: '2px',

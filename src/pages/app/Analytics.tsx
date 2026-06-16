@@ -12,14 +12,15 @@ import { useCategories } from '@/hooks/useCategories'
 import EmptyState from '@/components/shared/EmptyState'
 import { formatCurrency, formatDateShort } from '@/lib/utils'
 
-const CHART_COLORS = ['#C9A84C', '#2D5EA8', '#16A34A', '#D97706', '#DC2626', '#8A9BB5', '#1B3A6B', '#065F46']
+const CHART_COLORS = ['#4F46E5', '#10B981', '#0EA5E9', '#F59E0B', '#EC4899', '#8B5CF6', '#14B8A6', '#F43F5E']
 
 const TOOLTIP_STYLE = {
-  background: '#1B3A6B',
-  border: '1px solid rgba(201, 168, 76, 0.2)',
+  background: '#FFFFFF',
+  border: '1px solid #E2E8F0',
   borderRadius: '8px',
-  color: '#fff',
+  color: '#1E293B',
   fontSize: '12px',
+  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
 }
 
 export default function Analytics() {
@@ -157,9 +158,9 @@ export default function Analytics() {
                   <Line
                     type="monotone"
                     dataKey="roi"
-                    stroke="#C9A84C"
+                    stroke="#4F46E5"
                     strokeWidth={2.5}
-                    dot={{ fill: '#C9A84C', r: 4 }}
+                    dot={{ fill: '#4F46E5', r: 4 }}
                     activeDot={{ r: 6 }}
                   />
                 </LineChart>
@@ -191,7 +192,7 @@ export default function Analytics() {
                   contentStyle={TOOLTIP_STYLE}
                 />
                 <Bar dataKey="cost" fill="#E2E8F0" radius={[0, 4, 4, 0]} name="cost" />
-                <Bar dataKey="return" fill="#C9A84C" radius={[0, 4, 4, 0]} name="return" />
+                <Bar dataKey="return" fill="#4F46E5" radius={[0, 4, 4, 0]} name="return" />
               </BarChart>
             </ResponsiveContainer>
           </div>

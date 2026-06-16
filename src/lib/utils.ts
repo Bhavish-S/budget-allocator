@@ -65,13 +65,13 @@ export function interpolateColor(
   value: number,
   maxValue: number
 ): string {
-  if (maxValue === 0) return '#0A1628'
+  if (maxValue === 0) return '#F8FAFC'
   const ratio = Math.min(value / maxValue, 1)
 
-  // Navy (#0A1628) → Gold (#C9A84C)
-  const r = Math.round(10 + (201 - 10) * ratio)
-  const g = Math.round(22 + (168 - 22) * ratio)
-  const b = Math.round(40 + (76 - 40) * ratio)
+  // Slate-50 (#F8FAFC) → Indigo-600 (#4F46E5)
+  const r = Math.round(248 + (79 - 248) * ratio)
+  const g = Math.round(250 + (70 - 250) * ratio)
+  const b = Math.round(252 + (229 - 252) * ratio)
 
   return `rgb(${r}, ${g}, ${b})`
 }

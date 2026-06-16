@@ -38,7 +38,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
       {/* Desktop sidebar */}
       <aside
         className={cn(
-          'fixed left-0 top-16 bottom-0 z-40 w-60 bg-navy border-r border-gold/10 flex flex-col transition-transform duration-300',
+          'fixed left-0 top-16 bottom-0 z-40 w-60 bg-white border-r border-gray-200 flex flex-col transition-transform duration-300',
           'lg:translate-x-0',
           open ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         )}
@@ -56,19 +56,19 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                     className={cn(
                       'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all group',
                       isActive
-                        ? 'bg-gold/15 text-gold'
-                        : 'text-gray-mid hover:text-white hover:bg-white/5'
+                        ? 'bg-primary-light text-primary font-semibold'
+                        : 'text-text-muted hover:text-text-dark hover:bg-gray-50'
                     )}
                   >
                     <Icon
                       size={18}
                       className={cn(
                         'transition-colors',
-                        isActive ? 'text-gold' : 'text-gray-mid group-hover:text-white'
+                        isActive ? 'text-primary' : 'text-text-muted group-hover:text-primary'
                       )}
                     />
                     <span className="flex-1">{label}</span>
-                    {isActive && <ChevronRight size={14} className="text-gold" />}
+                    {isActive && <ChevronRight size={14} className="text-primary" />}
                   </NavLink>
                 </li>
               )
@@ -77,16 +77,16 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
         </nav>
 
         {/* Bottom badge */}
-        <div className="p-4 border-t border-gold/10">
-          <div className="bg-slate/60 rounded-lg p-3 border border-gold/20">
-            <p className="text-gold text-xs font-semibold">0/1 Knapsack DP</p>
-            <p className="text-gray-mid text-xs mt-0.5">Mathematical certainty</p>
+        <div className="p-4 border-t border-gray-100">
+          <div className="bg-primary-light/50 rounded-lg p-3 border border-primary/10">
+            <p className="text-primary text-xs font-semibold">0/1 Knapsack DP</p>
+            <p className="text-text-muted text-xs mt-0.5">Mathematical certainty</p>
           </div>
         </div>
       </aside>
 
       {/* Mobile bottom tab bar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-navy border-t border-gold/10 z-50 lg:hidden">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-50 lg:hidden shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <div className="flex">
           {navItems.map(({ to, icon: Icon, label, id }) => {
             const isActive = location.pathname.startsWith(to)
@@ -97,7 +97,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
                 to={to}
                 className={cn(
                   'flex-1 flex flex-col items-center gap-1 py-2 text-xs transition-colors',
-                  isActive ? 'text-gold' : 'text-gray-mid'
+                  isActive ? 'text-primary font-medium' : 'text-text-muted hover:text-text-dark'
                 )}
               >
                 <Icon size={20} />

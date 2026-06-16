@@ -58,14 +58,14 @@ export default function Dashboard() {
           title="Total Budget"
           value={portfoliosLoading ? '—' : formatCurrency(totalBudget, 'INR', true)}
           icon={DollarSign}
-          iconColor="#2D5EA8"
+          iconColor="#4F46E5"
           loading={portfoliosLoading}
         />
         <StatCard
           title="Best ROI Achieved"
           value={runsLoading ? '—' : `${bestROI.toFixed(1)}%`}
           icon={TrendingUp}
-          iconColor="#16A34A"
+          iconColor="#10B981"
           trend={bestROI > 0 ? { value: 'vs last month', positive: true } : undefined}
           loading={runsLoading}
         />
@@ -73,7 +73,7 @@ export default function Dashboard() {
           title="Optimizations This Month"
           value={runsLoading ? '—' : thisMonth.toString()}
           icon={Activity}
-          iconColor="#C9A84C"
+          iconColor="#0EA5E9"
           loading={runsLoading}
         />
       </div>
@@ -111,8 +111,8 @@ export default function Dashboard() {
                   key={p.id}
                   className="bg-white border border-gray-200 rounded-xl p-4 flex items-center gap-4 hover:shadow-sm transition-shadow"
                 >
-                  <div className="w-10 h-10 bg-navy rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Briefcase size={16} className="text-gold" />
+                  <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center flex-shrink-0">
+                    <Briefcase size={16} className="text-primary" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-text-dark font-semibold truncate">{p.name}</p>
@@ -123,7 +123,7 @@ export default function Dashboard() {
                   <button
                     id={`dashboard-optimize-${p.id}`}
                     onClick={() => navigate(`/app/portfolios/${p.id}/optimize`)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-gold text-navy text-sm font-semibold rounded-lg hover:bg-yellow-400 transition-colors flex-shrink-0"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-primary-light text-primary text-sm font-semibold rounded-lg hover:bg-primary/10 transition-colors flex-shrink-0"
                   >
                     <Zap size={14} /> Optimize
                   </button>

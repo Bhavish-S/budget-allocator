@@ -121,9 +121,9 @@ export default function PortfolioDetail() {
       {/* Summary stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <StatCard title="Total Cost" value={formatCurrency(totalCost, portfolio.currency, true)} icon={DollarSign} />
-        <StatCard title="Budget Used" value={`${utilization.toFixed(1)}%`} icon={BarChart2} iconColor="#C9A84C" />
-        <StatCard title="Avg Expected ROI" value={`${avgROI.toFixed(1)}%`} icon={TrendingUp} iconColor="#16A34A" />
-        <StatCard title="Best Single ROI" value={`${highestROI.toFixed(1)}%`} icon={Star} iconColor="#D97706" />
+        <StatCard title="Budget Used" value={`${utilization.toFixed(1)}%`} icon={BarChart2} iconColor="#0EA5E9" />
+        <StatCard title="Avg Expected ROI" value={`${avgROI.toFixed(1)}%`} icon={TrendingUp} iconColor="#10B981" />
+        <StatCard title="Best Single ROI" value={`${highestROI.toFixed(1)}%`} icon={Star} iconColor="#F59E0B" />
       </div>
 
       {/* Investments table */}

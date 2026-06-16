@@ -17,8 +17,8 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #F5F7FA;
-    color: #1A2332;
+    background-color: #F8FAFC;
+    color: #1E293B;
   }
 
   ::-webkit-scrollbar {
@@ -29,16 +29,16 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(201, 168, 76, 0.3);
+    background: rgba(79, 70, 229, 0.3);
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgba(201, 168, 76, 0.5);
+    background: rgba(79, 70, 229, 0.5);
   }
 
   /* Focus ring */
   :focus-visible {
-    outline: 2px solid #C9A84C;
+    outline: 2px solid #4F46E5;
     outline-offset: 2px;
   }
 }
@@ -46,46 +46,33 @@
 @layer components {
   /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-gold text-navy font-semibold rounded-[6px] hover:bg-yellow-400 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary text-white font-semibold rounded-[6px] hover:bg-primary-dark shadow-sm active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 border border-gold text-gold font-semibold rounded-[6px] hover:bg-gold/10 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-white border border-gray-200 text-text-dark font-semibold rounded-[6px] hover:bg-gray-50 shadow-sm active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-gray-mid font-medium rounded-[6px] hover:bg-white/5 hover:text-white active:scale-95 transition-all duration-150;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 text-text-muted font-medium rounded-[6px] hover:bg-gray-soft hover:text-text-dark active:scale-95 transition-all duration-150;
   }
 
   .btn-danger {
-    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-danger text-white font-semibold rounded-[6px] hover:bg-red-700 active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
+    @apply inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-danger text-white font-semibold rounded-[6px] hover:bg-red-600 shadow-sm active:scale-95 transition-all duration-150 disabled:opacity-50 disabled:pointer-events-none;
   }
 
   /* Cards */
-  .card-dark {
-    @apply bg-slate rounded-xl border p-5;
-    border-color: rgba(201, 168, 76, 0.2);
-  }
-
   .card-light {
-    @apply bg-white rounded-xl border border-gray-200 p-5 shadow-sm;
+    @apply bg-surface rounded-xl border border-gray-200 p-5 shadow-sm;
   }
 
   /* Form inputs */
   .input-field {
-    @apply w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-[6px] text-text-dark text-sm placeholder:text-gray-mid focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors;
-  }
-
-  .input-dark {
-    @apply w-full px-3.5 py-2.5 bg-navy/50 border border-gold/20 rounded-[6px] text-white text-sm placeholder:text-gray-mid focus:outline-none focus:ring-2 focus:ring-gold/50 focus:border-gold transition-colors;
+    @apply w-full px-3.5 py-2.5 bg-white border border-gray-200 rounded-[6px] text-text-dark text-sm placeholder:text-gray-mid focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all;
   }
 
   .label {
-    @apply block text-sm font-medium text-gray-700 mb-1.5;
-  }
-
-  .label-dark {
-    @apply block text-sm font-medium text-gold-light mb-1.5;
+    @apply block text-sm font-medium text-text-muted mb-1.5;
   }
 
   .error-text {
@@ -102,7 +89,7 @@
   }
 
   .page-subtitle {
-    @apply text-gray-mid text-sm mt-1;
+    @apply text-text-muted text-sm mt-1;
   }
 
   /* Badge */
@@ -112,7 +99,7 @@
 
   /* Table */
   .table-container {
-    @apply overflow-x-auto rounded-xl border border-gray-200 bg-white;
+    @apply overflow-x-auto rounded-xl border border-gray-200 bg-surface shadow-sm;
   }
 
   .table-base {
@@ -120,7 +107,7 @@
   }
 
   .table-header {
-    @apply bg-gray-soft text-gray-mid text-xs font-medium uppercase tracking-wider;
+    @apply bg-gray-soft text-text-muted text-xs font-medium uppercase tracking-wider;
   }
 
   .table-header th {
@@ -146,20 +133,16 @@
 
   /* Drawer */
   .drawer-overlay {
-    @apply fixed inset-0 bg-black/50 z-50;
+    @apply fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50;
   }
 
   .drawer-panel {
-    @apply fixed right-0 top-0 bottom-0 w-full max-w-md bg-white shadow-2xl z-50 flex flex-col overflow-hidden;
-  }
-
-  .drawer-panel-dark {
-    @apply fixed right-0 top-0 bottom-0 w-full max-w-md bg-navy border-l border-gold/20 shadow-2xl z-50 flex flex-col overflow-hidden;
+    @apply fixed right-0 top-0 bottom-0 w-full max-w-md bg-surface shadow-2xl z-50 flex flex-col overflow-hidden;
   }
 
   /* Gradient text */
   .gradient-text {
-    background: linear-gradient(135deg, #C9A84C, #E8D5A3);
+    background: linear-gradient(135deg, #4F46E5, #0EA5E9);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -188,24 +171,24 @@
       45deg,
       transparent,
       transparent 40px,
-      rgba(201, 168, 76, 0.03) 40px,
-      rgba(201, 168, 76, 0.03) 80px
+      rgba(79, 70, 229, 0.03) 40px,
+      rgba(79, 70, 229, 0.03) 80px
     );
   }
 
   .bg-grid {
     background-image:
-      linear-gradient(rgba(201, 168, 76, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(201, 168, 76, 0.05) 1px, transparent 1px);
+      linear-gradient(rgba(79, 70, 229, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(79, 70, 229, 0.05) 1px, transparent 1px);
     background-size: 40px 40px;
   }
 
   /* Glow effects */
-  .glow-gold {
-    box-shadow: 0 0 24px rgba(201, 168, 76, 0.25);
+  .glow-primary {
+    box-shadow: 0 0 24px rgba(79, 70, 229, 0.25);
   }
 
-  .text-glow-gold {
-    text-shadow: 0 0 20px rgba(201, 168, 76, 0.5);
+  .text-glow-primary {
+    text-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
   }
 }

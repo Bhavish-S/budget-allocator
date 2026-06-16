@@ -158,7 +158,7 @@ export default function Optimizer() {
                   key={inv.id}
                   className={`flex items-center gap-3 p-3 rounded-lg cursor-pointer transition-colors border ${
                     checked
-                      ? 'bg-gold/5 border-gold/30'
+                      ? 'bg-primary-light border-primary/30'
                       : 'bg-gray-50 border-transparent'
                   }`}
                 >
@@ -166,7 +166,7 @@ export default function Optimizer() {
                     type="checkbox"
                     checked={checked}
                     onChange={() => toggleInvestment(inv.id)}
-                    className="accent-gold w-4 h-4 flex-shrink-0"
+                    className="accent-primary w-4 h-4 flex-shrink-0"
                     id={`check-inv-${inv.id}`}
                     aria-label={`Include ${inv.name}`}
                   />
